@@ -1,3 +1,4 @@
+# Source: https://github.com/wasserth/TotalSegmentator/blob/master/totalsegmentator/resampling.py
 # pylint: disable=relative-beyond-top-level
 
 import os
