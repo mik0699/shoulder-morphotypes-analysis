@@ -11,8 +11,6 @@ import sys
 
 def find_largest_box_scapula():
     excluded_cts = [167,233,339,342,343,685,752,1003,1152] # CT che danno problemi e che non sono state escluse all'inizio
-    # excluded_cts = [7,36,129,167,233,237,339,342,343,354,443,614,639,670,676,685,752,892,1003,1009,1082,1106,1152,1154] 
-    # Escludo anche le CT outliers nell'omero, nella scapola no perchè son diverse, le escludo sucessivamente
     left_humerus_label = 69
     right_humerus_label = 70
     left_scapula_label = 71
@@ -26,7 +24,7 @@ def find_largest_box_scapula():
     limit = 50 
     limit_slices = 20 # Le CT con meno di questo numero di slice sono escluse perchè solitamente sono errori
     
-    for i in range(1,1251): # Da cambiare
+    for i in range(1,1251): 
         pos_array_prof_ct = []
         pos_array_hor_ct = []
         pos_array_ver_ct = []
@@ -51,7 +49,7 @@ def find_largest_box_scapula():
                         # sull'omero tagliato
                         max_hor = np.max(shoulder_seg_scapula_data[:,:,pos_array_prof_scap[0]:],axis=1) # Asse orizzontale
                         pos_array_hor = np.diff(max_hor,prepend=0,axis=0).nonzero()[0]
-                        #*********** AGGIUNTA *************#
+
                         index_split = np.where(np.diff(pos_array_hor,prepend=0)[1:] > limit)[0]
                         lista_split = np.split(pos_array_hor,index_split+1) 
                         cur_width = 0
@@ -59,13 +57,13 @@ def find_largest_box_scapula():
                             if el[-1]-el[0] > cur_width:
                                 pos_array_hor = el # Sostituisco direttamente pos_array_hor
                                 cur_width = el[-1]-el[0]
-                        #************* FINE ***************#
+
                         pos_array_hor_ct.append(pos_array_hor[0])
                         pos_array_hor_ct.append(pos_array_hor[-1])
 
                         max_ver = np.max(shoulder_seg_scapula_data[:,:,pos_array_prof_scap[0]:],axis=0) # Asse verticale
                         pos_array_ver = np.diff(max_ver,prepend=0,axis=0).nonzero()[0]
-                        #*********** AGGIUNTA *************#
+
                         index_split = np.where(np.diff(pos_array_ver,prepend=0)[1:] > limit)[0]
                         lista_split = np.split(pos_array_ver,index_split+1) 
                         cur_height = 0
@@ -73,15 +71,13 @@ def find_largest_box_scapula():
                             if el[-1]-el[0] > cur_height:
                                 pos_array_ver = el
                                 cur_height = el[-1]-el[0]
-                        #************* FINE ***************#
+
                         pos_array_ver_ct.append(pos_array_ver[0])
                         pos_array_ver_ct.append(pos_array_ver[-1])
 
-                        # cur_width = pos_array_hor[-1] - pos_array_hor[0]
                         if cur_width > max_width:
                             max_width = cur_width
 
-                        # cur_height = pos_array_ver[-1] - pos_array_ver[0]
                         if cur_height > max_height:
                             max_height = cur_height
 
@@ -103,7 +99,7 @@ def find_largest_box_scapula():
 
                         max_hor = np.max(shoulder_seg_scapula_data[:,:,pos_array_prof_scap[0]:],axis=1) # Asse orizzontale
                         pos_array_hor = np.diff(max_hor,prepend=0,axis=0).nonzero()[0]
-                        #*********** AGGIUNTA *************#
+
                         index_split = np.where(np.diff(pos_array_hor,prepend=0)[1:] > limit)[0]
                         lista_split = np.split(pos_array_hor,index_split+1) 
                         cur_width = 0
@@ -111,13 +107,13 @@ def find_largest_box_scapula():
                             if el[-1]-el[0] > cur_width:
                                 pos_array_hor = el # Sostituisco direttamente questo
                                 cur_width = el[-1]-el[0]
-                        #************* FINE ***************#
+
                         pos_array_hor_ct.append(pos_array_hor[0])
                         pos_array_hor_ct.append(pos_array_hor[-1])
 
                         max_ver = np.max(shoulder_seg_scapula_data[:,:,pos_array_prof_scap[0]:],axis=0) # Asse verticale
                         pos_array_ver = np.diff(max_ver,prepend=0,axis=0).nonzero()[0]
-                        #*********** AGGIUNTA *************#
+
                         index_split = np.where(np.diff(pos_array_ver,prepend=0)[1:] > limit)[0]
                         lista_split = np.split(pos_array_ver,index_split+1) 
                         cur_height = 0
@@ -125,15 +121,13 @@ def find_largest_box_scapula():
                             if el[-1]-el[0] > cur_height:
                                 pos_array_ver = el
                                 cur_height = el[-1]-el[0]
-                        #************* FINE ***************#
+
                         pos_array_ver_ct.append(pos_array_ver[0])
                         pos_array_ver_ct.append(pos_array_ver[-1])
 
-                        #cur_width = pos_array_hor[-1] - pos_array_hor[0]
                         if cur_width > max_width:
                             max_width = cur_width
 
-                        #cur_height = pos_array_ver[-1] - pos_array_ver[0]
                         if cur_height > max_height:
                             max_height = cur_height
 
